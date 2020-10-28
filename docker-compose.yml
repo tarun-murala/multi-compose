@@ -1,0 +1,74 @@
+version: '3.7'
+services:
+  jenkins:
+    container_name: jenkins-container
+    image: jenkins/jenkins 
+    hostname: multi-compose-host
+    volumes:
+      - './jenkins:/var/jenkins_home:Z'
+    ports:      
+        - "2100:8080"
+    networks:
+      - multi-compose-network
+  
+  jira:
+    container_name: jira-container
+    image: atlassian/jira-software:latest 
+    hostname: multi-compose-host
+    volumes:
+        - './jira:/var/atlassian/jira:Z'
+    ports:      
+        - "2200:8080"
+    networks:
+      - multi-compose-network
+
+  bitbucket: 
+    container_name: bitbucket-container 
+    image: atlassian/bitbucket-server:latest 
+    hostname: multi-compose-host
+    volumes:
+        - './bitbucket:/var/atlassian/application-data/bitbucket:Z'
+    ports:      
+        - "2300:7990"
+        - "2399:7999"
+    networks:
+      - multi-compose-network
+
+  
+  gitlab:
+    container_name: gitlab
+    image: gitlab/gitlab-ce:latest
+    hostname: multi-compose-host
+    volumes:
+      - './gitlab-config:/etc/gitlab'
+      - './gitlab-logs:/var/log/gitlab'
+      - './gitlab-data:/var/opt/gitlab'
+    ports:
+      - '2422:22'
+      - '2480:80'
+      - '2443:443'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        gitlab_rails['gitlab_shell_ssh_port'] = 2822
+        registry_external_url 'http://localhost'
+        registry['enable'] = true
+        unicorn['socket'] = '/opt/gitlab/var/unicorn/gitlab.socket'
+    networks:
+      - multi-compose-network
+
+
+  gitlab-runner1:
+    image: gitlab/gitlab-runner:latest
+    container_name: gitlab-runner
+    hostname: multi-compose-host
+    volumes:
+      - './gitlab-runner1-config:/etc/gitlab-runner:Z'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    privileged: false
+    networks:
+      - multi-compose-network
+
+
+networks:
+  multi-compose-network:
+    name: multi-compose-network

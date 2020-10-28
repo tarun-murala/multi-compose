@@ -1,4 +1,11 @@
 target/
+jenkins/
+jira/
+bitbucket/
+gitlab-config/
+gitlab-data/
+gitlab-logs/
+gitlab-runner1-config/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
