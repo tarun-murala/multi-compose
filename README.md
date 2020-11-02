@@ -19,3 +19,7 @@ To Shutdown
    docker-compose down
 ```
 
+To pick a specific docker file
+```
+   docker-compose -f docker-compose-jira-jenkins-bb.yml up -d
+```
