@@ -1,0 +1,39 @@
+version: '3.7'
+services:
+  jenkins:
+    container_name: jenkins-container
+    image: jenkins/jenkins 
+    hostname: multi-compose-host
+    volumes:
+      - './jenkins:/var/jenkins_home:Z'
+    ports:      
+        - "2100:8080"
+    networks:
+      - multi-compose-network
+  
+  jira:
+    container_name: jira-container
+    image: atlassian/jira-software:latest 
+    hostname: multi-compose-host
+    volumes:
+        - './jira:/var/atlassian/jira:Z'
+    ports:      
+        - "2200:8080"
+    networks:
+      - multi-compose-network
+
+  bitbucket: 
+    container_name: bitbucket-container 
+    image: atlassian/bitbucket-server:latest 
+    hostname: multi-compose-host
+    volumes:
+        - './bitbucket:/var/atlassian/application-data/bitbucket:Z'
+    ports:      
+        - "2300:7990"
+        - "2399:7999"
+    networks:
+      - multi-compose-network
+
+networks:
+  multi-compose-network:
+    name: multi-compose-network
