@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  jenkins:
+    container_name: jenkins-container
+    image: jenkins/jenkins 
+    hostname: multi-compose-host
+    volumes:
+      - './jenkins:/var/jenkins_home:Z'
+    ports:      
+        - "2100:8080"
+    networks:
+      - multi-compose-network
+
+networks:
+  multi-compose-network:
+    name: multi-compose-network
