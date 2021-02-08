@@ -2,7 +2,7 @@ version: '3.7'
 services:
   jenkins:
     container_name: jenkins-container
-    image: jenkins/jenkins 
+    image: jenkins/jenkins:2.278 
     hostname: multi-compose-host
     volumes:
       - './jenkins:/var/jenkins_home:Z'
@@ -13,7 +13,7 @@ services:
   
   jira:
     container_name: jira-container
-    image: atlassian/jira-software:latest 
+    image: atlassian/jira-software:8 
     hostname: multi-compose-host
     volumes:
         - './jira:/var/atlassian/jira:Z'
@@ -24,7 +24,7 @@ services:
 
   bitbucket: 
     container_name: bitbucket-container 
-    image: atlassian/bitbucket-server:latest 
+    image: atlassian/bitbucket-server:5.10.0 
     hostname: multi-compose-host
     volumes:
         - './bitbucket:/var/atlassian/application-data/bitbucket:Z'
